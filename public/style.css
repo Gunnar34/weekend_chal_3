@@ -1,0 +1,26 @@
+.name {
+  width: 150px;
+}
+
+.details {
+  width: 250px;
+}
+
+.complete {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.completedName {
+  background-color: #4CAF50;
+  color: white;
+  width: 150px;
+  border: none;
+}
+
+.completedDetail {
+  background-color: #4CAF50;
+  color: white;
+  width: 250px;
+  border: none;
+}
