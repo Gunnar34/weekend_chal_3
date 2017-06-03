@@ -4,6 +4,7 @@ function onReady(){
   getList();
   $('#register').on('click', addList);
   $('#outPutTable').on('click', '#complete', completeTask);
+  $('#outPutTable').on('click', '#delete', deleteTask);
 }
 
 //ajax functions
@@ -82,4 +83,26 @@ function completeTask(){
         getList();
       } //end success
     }); //end Ajax
+}
+
+
+function deleteTask(){
+  var data = $(this).parent();
+  var taskData = $(data[0]).siblings();
+  var taskName = ((taskData[0].innerHTML).split('"'))[9];
+  var taskDetails = ((taskData[1].innerHTML).split('"'))[9];
+  console.log(taskName, taskDetails);
+  var taskToSend = {
+    name: taskName,
+    details: taskDetails
+  };
+  $.ajax({
+      type: 'DELETE',
+      url: '/list',
+      data: taskToSend,
+      success: function( response) {
+        console.log(response);
+        getList();
+      }
+    });
 }

@@ -88,3 +88,22 @@ app.post('/listComp', function(req, res){
     }
   });
 });
+
+app.delete('/list', function(req, res){
+  pool.connect( function( err , connection , done ){
+  console.log('Post hit');
+  console.log(req.body);
+  var name = (req.body).name;
+  var details = (req.body).details;
+    if (err){
+      console.log('error in connection', err);
+      done();
+      res.send( 400 );
+      }
+    else {
+      var deleteListItem = connection.query("DELETE FROM task_list WHERE (task_name = '" + name + "') AND" +
+    "(task_details = '" + details + "')");
+    res.send('successful delete');
+    }
+});
+});
