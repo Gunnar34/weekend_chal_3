@@ -60,8 +60,9 @@ app.post('/list', function(req, res){
       res.send( 400 );
     }
     else {
-      var listInfo = connection.query("INSERT INTO task_list (task_name, task_details, completed) Values ('" + name +
-      "', '" + details + "', 'false' )");
+      var listInfo = connection.query("INSERT INTO task_list (task_name, task_details, completed) Values ($1, $2, 'false')", [name, details]);
+      // var listInfo = connection.query("INSERT INTO task_list (task_name, task_details, completed) Values ('" + name +
+      // "', '" + details + "', 'false' )");
       console.log(listInfo);
       done();
       res.send('success');
@@ -81,8 +82,10 @@ app.post('/listComp', function(req, res){
       res.send( 400 );
     }
     else {
-      var listInfo = connection.query("UPDATE task_list SET completed = 'true' WHERE" +
-    "(task_name = '" + name + "') AND (task_details = '" + details + "')");
+      var listInfo = connection.query("UPDATE task_list SET completed = 'true' WHERE (task_name = $1) AND (task_details = $2)",
+      [name, details]);
+    //   var listInfo = connection.query("UPDATE task_list SET completed = 'true' WHERE" +
+    // "(task_name = '" + name + "') AND (task_details = '" + details + "')");
       done();
       res.send('successful update');
     }
@@ -93,17 +96,38 @@ app.delete('/list', function(req, res){
   pool.connect( function( err , connection , done ){
   console.log('Post hit');
   console.log(req.body);
-  var name = (req.body).name;
-  var details = (req.body).details;
+  var taskName = (req.body).name;
+  var taskDetails = (req.body).details;
     if (err){
       console.log('error in connection', err);
       done();
       res.send( 400 );
       }
     else {
-      var deleteListItem = connection.query("DELETE FROM task_list WHERE (task_name = '" + name + "') AND" +
-    "(task_details = '" + details + "')");
+      var deleteListItem = connection.query("DELETE FROM task_list WHERE (task_name = $1) AND (task_details = $2)",
+      [taskName, taskDetails]);
+    //   var deleteListItem = connection.query("DELETE FROM task_list WHERE (task_name = '" + name + "') AND" +
+    // "(task_details = '" + details + "')");
     res.send('successful delete');
     }
 });
+});
+
+app.post('/listUpdate', function(req, res){
+  console.log('Post hit');
+  console.log(req.body);
+  var details = (req.body).details;
+  var name = (req.body).name;
+  pool.connect( function( err , connection , done ){
+    if (err){
+      console.log('error in connection', err);
+      done();
+      res.send( 400 );
+    }
+    else {
+      var listInfo = connection.query("UPDATE task_list SET task_details = $1 WHERE task_name = $2", [details, name]);
+      done();
+      res.send('successful update');
+    }
+  });
 });

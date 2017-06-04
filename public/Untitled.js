@@ -5,6 +5,7 @@ function onReady(){
   $('#register').on('click', addList);
   $('#outPutTable').on('click', '#complete', completeTask);
   $('#outPutTable').on('click', '#delete', deleteTask);
+  $('#outPutTable').on('click', '#update', updateTask);
 }
 
 //ajax functions
@@ -16,7 +17,7 @@ function getList(){
       success: function( response ){
         console.log(response);
         $('#outPutTable').empty();
-        $('#outPutTable').append('<tr><th>Item Name</th><th>Description</th><th>completed Y/N</th><th>Remove</th></tr>');
+        $('#outPutTable').append('<tr><th>Item Name</th><th>Description</th><th>completed Y/N</th><th>Remove</th><th>Update</th></tr>');
         for (var i = 0; i < response.length; i++) {
           var taskName = response[i].task_name;
           var taskDetails = response[i].task_details;
@@ -26,7 +27,8 @@ function getList(){
             '<td id="tdTaskName' + id + '"><input id="nameInput' + id + '" class="name" type="text" name="taskName" value="' + taskName + '" value disabled="disabled"></td>' +
             '<td id="tdTaskDetails' + id + '"><input id="detailsInput' + id + '" class="details" type="text" name="Task Description" value="' + taskDetails + '"></td>' +
             '<td id="tdCompleted' + id + '"><button id="complete" type="button" name="Completed">Completion</button></td>' +
-            '<td id="tdDelete' + id + '"><button id="delete" type="button" name="Delete">Delete</button></td>');
+            '<td id="tdDelete' + id + '"><button id="delete" type="button" name="Delete">Delete</button></td>' +
+            '<td id="tdUpdate' + id + '"><button id="update" type="button" name="Update">Update</button></td>');
           if (completion) {
             $('#tr' + id).attr('class', 'complete');
             $('#nameInput' + id).attr('class', 'completedName');
@@ -99,6 +101,27 @@ function deleteTask(){
   $.ajax({
       type: 'DELETE',
       url: '/list',
+      data: taskToSend,
+      success: function( response) {
+        console.log(response);
+        getList();
+      }
+    });
+}
+
+function updateTask(){
+  var data = $(this).parent();
+  var taskData = $(data[0]).siblings();
+  var taskName = ((taskData[0].innerHTML).split('"'))[9];
+  var $item = $(this).closest("tr").find(".details").val();
+  console.log($item);
+  var taskToSend = {
+    name: taskName,
+    details: $item
+  };
+  $.ajax({
+      type: 'POST',
+      url: '/listUpdate',
       data: taskToSend,
       success: function( response) {
         console.log(response);
