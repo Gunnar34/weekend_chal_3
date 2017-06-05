@@ -43,13 +43,12 @@ function getList(){
               '<td id="tdTaskDetails' + id1 + '"><input id="detailsInput' + id1 + '" class="details" type="text" name="Task Description" value="' + taskDetails1 + '"></td>' +
               '<td id="tdCompleted' + id1 + '"><button class="not2' + id1 + '"id="complete" type="button" name="Completed">Complete</button></td>' +
               '<td id="tdDelete' + id1 + '"><button class="not' + id1 + '" id="delete" type="button" name="Delete">Delete</button></td>' +
-              '<td id="tdUpdate' + id1 + '"><button class="not' + id1 + '" id="update" type="button" name="Update">Update</button></td>');
+              '<td id="tdUpdate' + id1 + '"><button class="not2' + id1 + '" id="update" type="button" name="Update">Update</button></td>');
 
               $('#tr' + id1).attr('class', 'complete');
               $('#nameInput' + id1).attr('class', 'completedName');
               $('#detailsInput' + id1).attr('class', 'completedDetail');
               $('.not' + id1).attr('class', 'completeButton');
-              $('#c' + id1).attr('ID', 'comp');
               $('.not2' + id1).attr('class', 'comp');
         }
       } //end success
@@ -154,8 +153,4 @@ function updateTask(){
         getList();
       }
     });
-}
-
-function appendTable(){
-
 }

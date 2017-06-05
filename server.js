@@ -14,8 +14,6 @@ var pool = new pg.Pool( config );
 app.use( express.static( 'public' ) );
 app.use( bodyParser.urlencoded( { extended: true } ) );
 
-var searchData = [];
-
 app.listen( 8000, function(){
   console.log('server 8000');
 });
