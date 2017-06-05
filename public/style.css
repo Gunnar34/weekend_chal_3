@@ -1,17 +1,19 @@
 h1 {
   display: inline-block;
   text-align: center;
-  font-style: oblique;
-  font-family: fantasy;
+  font-style: italic;
+  font-size: 3em;
   text-decoration: underline;
   width: 50%;
-  border: 3px solid #001f3f;
+  border: 3px solid grey;
+  color: #1077c8;
 }
 table {
   text-align: center;
 }
 th{
   padding: 15px;
+  font-size: 20px;
   text-align: center;
   border-style: groove;
 }
@@ -22,7 +24,7 @@ th{
   padding: 15px;
   text-align: center;
   background-color: inherit;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .details {
@@ -31,32 +33,32 @@ th{
   padding: 15px;
   text-align: left;
   background-color: inherit;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .complete {
-  background-color: #4CAF50;
+  background-color: #10c861;
   color: white;
 }
 
 .completedName {
-  background-color: #4CAF50;
+  background-color: #10c861;
   color: white;
   width: 150px;
   border: none;
   padding: 15px;
   text-align: center;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .completedDetail {
-  background-color: #4CAF50;
+  background-color: #10c861;
   color: white;
   width: 250px;
   border: none;
   padding: 15px;
   text-align: left;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .notComplete:nth-child(even) {
@@ -64,27 +66,27 @@ th{
 }
 
 #todoName, #description {
-  border-style: ridge;
+  border: 3px solid grey;
   padding: 15px;
   text-align: left;
   background-color: inherit;
-  font-size: 12px;
+  font-size: 16px;
   margin: 10px;
 }
 
 #todoName {
-  width:300px;
+  width:400px;
 }
 
 #description {
-  width:700px;
+  width:400px;
 }
 
 #outPutTable {
   margin: auto;
   margin-top: 50px;
   width: 50%;
-  border: 3px solid green;
+  border: 3px solid #1077c8;
   padding: 10px;
 }
 
@@ -103,10 +105,12 @@ th{
 #top {
   margin: auto;
   width: 75%;
-  border: 3px solid green;
+  border: 5px solid #1077c8;
   padding: 10px;
   text-align: center;
+  /*background-color: rgba(16, 200, 189, 0.3);*/
 }
+
 
 button {
     background-color: inherit;
@@ -117,11 +121,34 @@ button {
     text-decoration: underline;
     display: inline-block;
     font-size: 16px;
+    -webkit-box-shadow: 1px 1px 2px #ccc;
+    -moz-box-shadow: 1px 1px 2px #ccc;
+    box-shadow: 1px 1px 2px #ccc;
+}
+
+button:hover {
+  cursor: pointer;
+  outline: none;
+  -webkit-box-shadow: inset 0px 0px 4px #ccc;
+  -moz-box-shadow: inset 0px 0px 4px #ccc;
+  box-shadow: inset 0px 0px 4px #ccc;
+  color: grey;
+
+}
+
+.completeButton {
+  color: white;
 }
 
 #register {
-  border: 1px solid grey;
+  border: 3px solid grey;
 }
-/** {
-  background-color: grey;
+
+/*#container {
+  background-color: #10C8BD;
+  opacity: 50%;
 }*/
+
+.comp {
+  display: none;
+}

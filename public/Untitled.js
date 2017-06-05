@@ -17,28 +17,45 @@ function getList(){
       success: function( response ){
         console.log(response);
         $('#outPutTable').empty();
-        $('#outPutTable').append('<tr><th>Item Name</th><th>Description</th><th>completed Y/N</th><th>Remove</th><th>Update</th></tr>');
+        $('#outPutTable').append('<tr><th>Item Name</th><th>Description</th><th>Complete</th><th>Remove</th><th>Update</th></tr>');
         for (var i = 0; i < response.length; i++) {
           var taskName = response[i].task_name;
           var taskDetails = response[i].task_details;
           var completion = response[i].completed;
           var id = response[i].id;
-          $('#outPutTable').append('<tr class="notComplete" id="tr' + id + '">' +
-            '<td id="tdTaskName' + id + '"><input id="nameInput' + id + '" class="name" type="text" name="taskName" value="' + taskName + '" value disabled="disabled"></td>' +
-            '<td id="tdTaskDetails' + id + '"><input id="detailsInput' + id + '" class="details" type="text" name="Task Description" value="' + taskDetails + '"></td>' +
-            '<td id="tdCompleted' + id + '"><button id="complete" type="button" name="Completed">Completion</button></td>' +
-            '<td id="tdDelete' + id + '"><button id="delete" type="button" name="Delete">Delete</button></td>' +
-            '<td id="tdUpdate' + id + '"><button id="update" type="button" name="Update">Update</button></td>');
-          if (completion) {
-            $('#tr' + id).attr('class', 'complete');
-            $('#nameInput' + id).attr('class', 'completedName');
-            $('#detailsInput' + id).attr('class', 'completedDetail');
+          if (!completion) {
+            $('#outPutTable').append('<tr class="notComplete" id="tr' + id + '">' +
+              '<td id="tdTaskName' + id + '"><input id="nameInput' + id + '" class="name" type="text" name="taskName" value="' + taskName + '" value disabled="disabled"></td>' +
+              '<td id="tdTaskDetails' + id + '"><input id="detailsInput' + id + '" class="details" type="text" name="Task Description" value="' + taskDetails + '"></td>' +
+              '<td id="tdCompleted' + id + '"><button class="not2' + id + '"id="complete" type="button" name="Completed">Complete</button></td>' +
+              '<td id="tdDelete' + id + '"><button class="not' + id + '" id="delete" type="button" name="Delete">Delete</button></td>' +
+              '<td id="tdUpdate' + id + '"><button class="not' + id + '" id="update" type="button" name="Update">Update</button></td>');
           }
         }
+        for (var j = 0; j < response.length; j++) {
+          var taskName1 = response[j].task_name;
+          var taskDetails1 = response[j].task_details;
+          var completion1 = response[j].completed;
+          var id1 = response[j].id;
+          if (completion1) {
+            $('#outPutTable').append('<tr class="notComplete" id="tr' + id1 + '">' +
+              '<td id="tdTaskName' + id1 + '"><input id="nameInput' + id1 + '" class="name" type="text" name="taskName" value="' + taskName1 + '" value disabled="disabled"></td>' +
+              '<td id="tdTaskDetails' + id1 + '"><input id="detailsInput' + id1 + '" class="details" type="text" name="Task Description" value="' + taskDetails1 + '"></td>' +
+              '<td id="tdCompleted' + id1 + '"><button class="not2' + id1 + '"id="complete" type="button" name="Completed">Complete</button></td>' +
+              '<td id="tdDelete' + id1 + '"><button class="not' + id1 + '" id="delete" type="button" name="Delete">Delete</button></td>' +
+              '<td id="tdUpdate' + id1 + '"><button class="not' + id1 + '" id="update" type="button" name="Update">Update</button></td>');
 
+              $('#tr' + id1).attr('class', 'complete');
+              $('#nameInput' + id1).attr('class', 'completedName');
+              $('#detailsInput' + id1).attr('class', 'completedDetail');
+              $('.not' + id1).attr('class', 'completeButton');
+              $('#c' + id1).attr('ID', 'comp');
+              $('.not2' + id1).attr('class', 'comp');
+        }
       } //end success
-  }); //end ajax
-} //end getList
+  } //end ajax
+  }); //end getList
+}
 
 function addList(){
   var taskName = $('#todoName').val();
@@ -89,24 +106,29 @@ function completeTask(){
 
 
 function deleteTask(){
-  var data = $(this).parent();
-  var taskData = $(data[0]).siblings();
-  var taskName = ((taskData[0].innerHTML).split('"'))[9];
-  var taskDetails = ((taskData[1].innerHTML).split('"'))[9];
-  console.log(taskName, taskDetails);
-  var taskToSend = {
-    name: taskName,
-    details: taskDetails
-  };
-  $.ajax({
-      type: 'DELETE',
-      url: '/list',
-      data: taskToSend,
-      success: function( response) {
-        console.log(response);
-        getList();
-      }
-    });
+  if (confirm('Are you sure you want to delete this task?')) {
+      var data = $(this).parent();
+      var taskData = $(data[0]).siblings();
+      var taskName = ((taskData[0].innerHTML).split('"'))[9];
+      var taskDetails = ((taskData[1].innerHTML).split('"'))[9];
+      console.log(taskName, taskDetails);
+      var taskToSend = {
+        name: taskName,
+        details: taskDetails
+      };
+      $.ajax({
+          type: 'DELETE',
+          url: '/list',
+          data: taskToSend,
+          success: function( response) {
+            console.log(response);
+            getList();
+          }
+        });
+  }
+  else {
+    alert('Task not deleted');
+  }
 }
 
 function updateTask(){
@@ -114,7 +136,11 @@ function updateTask(){
   var taskData = $(data[0]).siblings();
   var taskName = ((taskData[0].innerHTML).split('"'))[9];
   var $item = $(this).closest("tr").find(".details").val();
+  if ($item == null) {
+    var $item = $(this).closest("tr").find(".completedDetail").val();
+  }
   console.log($item);
+  console.log(taskName);
   var taskToSend = {
     name: taskName,
     details: $item
@@ -128,4 +154,8 @@ function updateTask(){
         getList();
       }
     });
+}
+
+function appendTable(){
+
 }
